@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <link rel="stylesheet" href="/static/css/dc.css"> 
+  <link rel="stylesheet" href="/static/css/mystyle.css">
+  <link rel="icon" href="data:,">
+  <link href="/static/css/sb-admin-2.min.css" rel="stylesheet">
+  <link href="/static/css/all.min.css" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+
+
+
+  <script src="http://d3js.org/d3.v3.min.js"></script>
+  <script src="/static/js/crossfilter.v1.min.js"></script>
+  <script src="/static/js/dc.js"></script> 
+
+</head>
+
+
+    
+<body id="page-top">
+  <div id="load"></div>
+  <!-- Page Wrapper -->
+  <div id="wrapper">
+      <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
+
+      <!-- Sidebar - Brand -->
+      <a class="sidebar-brand d-flex align-items-center justify-content-center" href="/">
+        <div class="sidebar-brand-icon rotate-n-15">
+          <i class="fas fa-laugh-wink"></i>
+        </div>
+        <div class="sidebar-brand-text mx-3">Admin</div>
+      </a>
+
+      <!-- Divider -->
+      <hr class="sidebar-divider my-0">
+
+      <!-- Nav Item - Dashboard -->
+      <li class="nav-item active">
+        <a class="nav-link" href="/instructions">
+          <i class="fas fa-fw fa fa-book"></i>
+          <span>Instructions</span></a>
+      </li>
+
+      <hr class="sidebar-divider">
+
+      <li class="nav-item active">
+        <a class="nav-link" href="/">
+          <i class="fas fa-fw fa fa-filter"></i>
+          <span>Year</span></a>
+      </li>
+
+      <!-- Divider -->
+      <hr class="sidebar-divider">
+
+
+      <div class="filters">
+        <!--<input class="filter_button" type="checkbox" id="2015" value="2015"><label for="2015">2015</label>-->        
+        <input class="filter_button" type="checkbox" id="2016" value="2016" checked><label for="2016" style="color: #fff;">&nbsp; 2016
+        </label></br>
+        <input class="filter_button" type="checkbox" id="2017" value="2017"><label for="2017" style="color: #fff;">&nbsp; 2017</label></br>
+        <input class="filter_button" type="checkbox" id="2018" value="2018"><label for="2018" style="color: #fff;">&nbsp; 2018
+        </label></br>
+        <input class="filter_button" type="checkbox" id="2019" value="2019"><label for="2019" style="color: #fff;">&nbsp; 2019</label>
+     </div>
+      
+      
+      <!-- Divider -->
+      <hr class="sidebar-divider">
+
+
+    </ul>
+    <!-- End of Sidebar -->
+
+
+      <div id="content-wrapper" class="d-flex flex-column">
+
+      <!-- Main Content -->
+      <div id="content">
+
+        <!-- Topbar -->
+        <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
+
+          <!-- Sidebar Toggle (Topbar) -->
+              <div class="d-sm-flex align-items-center justify-content-between mb-4">
+                <h2 style="margin-top: 15px;" class="h4 mb-0 text-gray-800"><Strong>US Accidents Analysis Dashboard</Strong></h2>
+              </div>
+              
+           <button type="button" id="t1start" class="btn btn-success" style="margin-left:5px; margin-right:5px;" onclick="logStart('t1start')">T1 Start</button>
+           <button type="button" id="t1done" class="btn btn-success" style="margin-left:5px; margin-right:5px;" onclick="logStart('t1done')">T1 Done</button>
+           <button type="button" id="t2start" class="btn btn-success" style="margin-left:5px; margin-right:5px;" onclick="logStart('t2start')">T2 Start</button>
+           <button type="button" id="t2done" class="btn btn-success" style="margin-left:5px; margin-right:5px;" onclick="logStart('t2done')">T2 Done</button>
+           <button type="button" id="t3start" class="btn btn-success" style="margin-left:5px; margin-right:5px;" onclick="logStart('t3start')">T3 Start</button>
+           <button type="button" id="t3done" class="btn btn-success" style="margin-left:5px; margin-right:5px;" onclick="logStart('t3done')">T3 Done</button>
+           <button type="button" id="t4start" class="btn btn-success" style="margin-left:5px; margin-right:5px;" onclick="logStart('t4start')">T4 Start</button>
+           <button type="button" id="t4done" class="btn btn-success" style="margin-left:5px; margin-right:5px;" onclick="logStart('t4done')">T4 Done</button> 
+
+          <!-- Topbar Navbar -->
+          <ul class="navbar-nav ml-auto">
+            <!-- Nav Item - Messages -->
+
+            <div class="topbar-divider d-none d-sm-block"></div>
+                      <!-- Page Heading -->
+
+            <!-- Nav Item - User Information -->
+            <li class="nav-item dropdown no-arrow">
+                <span class="mr-2 d-none d-lg-inline text-gray-600 small">Stefanie Morris</span>
+                <img class="img-profile rounded-circle" src="https://source.unsplash.com/QAB-WJcbgJk/60x60">
+                         <!-- Dropdown - User Information -->
+            </li>
+
+          </ul>
+
+        </nav>
+        <!-- End of Topbar -->
+
+        <!-- Begin Page Content -->
+        <div class="container-fluid">
+
+
+          <div class="row">
+              <div class="col-xl-8 col-lg-8"> <!--bigger left column-->
+                <div class="row"> <!--inner row-->
+
+                          
+                    <div class="col-xl-8 col-lg-8"><!--smaller column-->
+                      
+                           <div class="col-xl-12 col-lg-12">
+                              <div class="card shadow mb-4">
+                              <!-- Card Header - Dropdown -->
+                              <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                                <h6 class="m-0 font-weight-bold text-primary">Accidents by State</h6>
+                              </div>
+                              <!-- Card Body -->
+                              <div class="card-body">
+                              
+                                    <div style="margin-left:-100px;" id="state-chart" class="dc-chart" >
+                                          <span class="reset" style="margin-left:+100px; display: none;">state selected: <span class="filter"></span></span>
+                                          <a class="reset" href="javascript:stateChart.filterAll();dc.redrawAll();" style="margin-left:+100px;display: none;">reset</a>
+
+                                          <div class="clearfix"></div>
+                                    </div>
+                             
+                                </div>
+                              </div>
+                          </div>
+
+                    </div>      
+                   <div class="col-xl-4 col-lg-4">
+                        <div class="col-xl-12 col-lg-12">
+                          <div class="card shadow mb-4">
+                            <!-- Card Header - Dropdown -->
+                            <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                              <h6 class="m-0 font-weight-bold text-primary">Day vs Night Accidents</h6>
+                            </div>
+                            <!-- Card Body -->
+                            <div class="card-body">
+                            
+                                <div id="day-night-chart" class="dc-chart">
+                                  <span class="reset" style="display: none;">selected: <span class="filter"></span></span>
+                                    <a class="reset" href="javascript:dayNightChart.filterAll();dc.redrawAll();" style="display: none;">reset</a>
+
+                                      <div class="clearfix"></div>
+                                </div>
+                            </div>
+                          </div>
+                       </div> 
+
+                        <div class="col-xl-12 col-lg-12">
+                            <div class="card shadow mb-4">
+                              <!-- Card Header - Dropdown -->
+                              <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                                <h6 class="m-0 font-weight-bold text-primary">Total Accidents Shown</h6>
+                              </div>
+                              <!-- Card Body -->
+                              <div class="card-body">
+                                <div id="number-projects-nd" class="dc-chart">
+                                    
+                               </div>
+                              </div>
+                            </div>
+                      </div> 
+                  </div>
+            </div>
+              <div class="row"> 
+                <div class="col-xl-12 col-lg-12">
+                  <div class="col-xl-12 col-lg-12">
+                  <div class="card shadow mb-4">
+                  <!-- Card Header - Dropdown -->
+                    <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                      <h6 class="m-0 font-weight-bold text-primary">Accidents over Time</h6>
+                    </div>
+                    <!-- Card Body -->
+                    <div class="card-body">
+                      
+                         <div id="monthly-accidents-chart" class="dc-chart">
+                            <span class="reset" style="display: none;">range: <span class="filter"></span></span>
+                            <a class="reset" href="javascript:monthlyAccidentChart.filterAll();dc.redrawAll();" style="display: none;">reset</a>
+
+                          <div class="clearfix"></div>
+                            
+                        </div>
+                    </div>
+
+                  </div>
+              </div>
+           </div> 
+        </div>
+     </div>
+      <div class="col-xl-4 col-lg-4">
+          <div class="col-xl-12 col-lg-12">
+                <div class="card shadow mb-4">
+                  <!-- Card Header - Dropdown -->
+                  <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                    <h6 class="m-0 font-weight-bold text-primary">Severity of the Accident</h6>
+                  </div>
+                  <!-- Card Body -->
+                  <div class="card-body">
+               
+                      <div id="severity-chart" class="dc-chart">
+                        <span class="reset" style="display: none;">severity level selected: <span class="filter"></span></span>
+                            <a class="reset" href="javascript:severityChart.filterAll();dc.redrawAll();" style="display: none;">reset</a>
+
+                            <div class="clearfix"></div>
+                      </div>
+                      
+                  </div>
+                </div>
+          </div>
+        <div class="col-xl-12 col-lg-12">
+            <div class="card shadow mb-4">
+                <!-- Card Header - Dropdown -->
+              <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                  <h6 class="m-0 font-weight-bold text-primary">Weather Condition Ditribution</h6>
+              </div>
+                <!-- Card Body -->
+              <div class="card-body">
+                 
+                <div id="weather-chart" class="dc-chart">
+                  <span class="reset" style="display: none;">weather condition selected: <span class="filter"></span></span>
+                  <a class="reset" href="javascript:weatherChart.filterAll();dc.redrawAll();" style="display: none;">reset</a>
+
+                  <div class="clearfix"></div>
+
+                </div>
+                      
+              </div>
+            </div>
+         </div>
+       </div>
+     
+
+   </div>  
+
+        </div>
+        <!-- /.container-fluid -->
+
+      </div>
+    </div>
+
+
+
+<script src="./static/js/queue.js"></script>
+<script src='./static/js/chart.js' type='text/javascript'></script>
+<script>
+  document.onreadystatechange = function () {
+  var state = document.readyState
+    if (state == 'complete') {
+      setTimeout(function(){
+         document.getElementById('interactive');
+         document.getElementById('load').style.visibility="hidden";
+      },1000);
+    }
+  }
+  function logStart(id) {
+    console.log(Date.now(), id);
+    document.getElementById(id).disabled = true;
+  }
+
+</script>
+</body>
+</html>

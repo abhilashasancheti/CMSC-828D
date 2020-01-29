@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <link rel="stylesheet" href="/static/css/dc.css"> 
+  <link rel="stylesheet" href="/static/css/mystyle.css">
+  <link rel="icon" href="data:,">
+  <link href="/static/css/sb-admin-2.min.css" rel="stylesheet">
+  <link href="/static/css/all.min.css" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+
+
+
+</head>
+
+    
+<body id="page-top">
+  <!-- Page Wrapper -->
+  <div id="wrapper">
+      <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
+
+      <!-- Sidebar - Brand -->
+      <a class="sidebar-brand d-flex align-items-center justify-content-center" href="/">
+        <div class="sidebar-brand-icon rotate-n-15">
+          <i class="fas fa-laugh-wink"></i>
+        </div>
+        <div class="sidebar-brand-text mx-3">Admin</div>
+      </a>
+
+      <!-- Divider -->
+      <hr class="sidebar-divider my-0">
+
+      <!-- Nav Item - Dashboard -->
+
+      <li class="nav-item active">
+        <a class="nav-link" href="/instructions">
+       	<i class="fas fa-fw fa fa-book"></i>
+          <span>Instructions</span></a>
+      </li>
+
+      <hr class="sidebar-divider">
+
+      <li class="nav-item active">
+        <a class="nav-link" href="/">
+          <i class="fas fa-fw fa fa-bar-chart"></i>
+          <span>Visualization</span></a>
+      </li>
+
+      <!-- Divider -->
+      <hr class="sidebar-divider">
+
+	    </ul>
+	    <!-- End of Sidebar -->
+
+
+      <div id="content-wrapper" class="d-flex flex-column">
+
+      <!-- Main Content -->
+      <div id="content">
+
+        <!-- Topbar -->
+        <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
+
+          <!-- Sidebar Toggle (Topbar) -->
+              <div class="d-sm-flex align-items-center justify-content-between mb-4">
+                <h2 style="margin-top: 15px;" class="h4 mb-0 text-gray-800"><Strong>US Accidents Analysis Dashboard</Strong></h2>
+              </div>
+              
+
+          <!-- Topbar Navbar -->
+          <ul class="navbar-nav ml-auto">
+            <!-- Nav Item - Messages -->
+
+            <div class="topbar-divider d-none d-sm-block"></div>
+                      <!-- Page Heading -->
+
+            <!-- Nav Item - User Information -->
+            <li class="nav-item dropdown no-arrow">
+                <span class="mr-2 d-none d-lg-inline text-gray-600 small">Stefanie Morris</span>
+                <img class="img-profile rounded-circle" src="https://source.unsplash.com/QAB-WJcbgJk/60x60">
+                         <!-- Dropdown - User Information -->
+            </li>
+
+          </ul>
+
+        	</nav>
+        <!-- End of Topbar -->
+
+        <!-- Begin Page Content -->
+        	<div class="container-fluid">
+        		<div style="text-align: justify;">
+        		<p>
+        			<h4><Strong>Setting up and running the server</Strong></h4>
+        			<p>This prototype is built on a Flask server and PostgreSQL as the DBMS. You are required to install Flask and PostgreSQL in order to run the prototype as a browser-based service. For connecting the DBMS to the Flask server you are required to install a python package named asyncpg which is 3x times faster than psycopg2. Serveer-side caching has also been implemented which requires memcached to be installed along with pymemcache</br>
+              <ol> <li>From bash file</br>
+                  Open terminal and type ./setup.bash after navigating inside assignment folder and providing  the required permissions to setup.bash. </br>
+                  For server-side caching to work two lines are currently commented in the script which are required to be copied and run in terminal to install memcached and then start the caching service. Also, 'server-caching.py' implements the caching. So, this file needs to be run instead of 'server.py' after memcached installations. </li>
+                  <li>Manually
+                  <ul>
+              
+              <li>Run the following commands to install external libraries:
+              
+                <ol>
+                  <li>brew install memcached</li>
+                  <li>pip install asyncpg asyncio</li>
+                  <li>pip install Flask</li>
+                  <li>pip install pymemcache</li>
+                </ol></li>
+            
+          <li>For creating the table in the database (assuming that the database with name 'a3db' has already been created) follow the below steps
+          <ol>
+            <li>Open the terminal, navigate to the project folder and type </br>
+             psql -d a3db -U a3user</li>
+            <li>In the postgres prompt type </br>
+              CREATE TABLE accidents (ID  varchar(10),
+Severity                       int,
+Start_Time            date,
+State                         varchar(25),
+Weather_Condition             varchar(50),
+Sunrise_Sunset                 varchar(8));</li>
+            <li> Insert data into the database by typing this command in the prompt. </br>
+            \copy accidents from US_accidents.csv (format csv, header true)</li>
+            <li>In order to retrieve the columns faster. Build index on the columns. </br> 
+            CREATE INDEX idx_accidents_severity on accidents(severity);</br>
+            CREATE INDEX idx_accidents_weather_condition on accidents(weather_condition);</br>
+            CREATE INDEX idx_accidents_state on accidents(state);</br>
+            CREATE INDEX idx_accidents_start_time on accidents(start_time);</br>
+            CREATE INDEX idx_accidents_sunrise_sunset on accidents(sunrise_sunset);</br>
+            </li>
+
+          </ol></li>
+          <li>Once set up is done, type this command to run the server 'python server.py' without caching. For running the service with caching, open another terminal window and type 'memcached' to start the caching server and then run 'python server-caching.py'. Now, type 'http://localhost:8080' in the browser to access the browser-based visualization tool.</li>
+              </ul>
+
+              </li>
+            </ol>
+            </p>
+              <h4><Strong>Implemented Visualizations and Interactions</Strong></h4>
+              <p>I have used US-Accidents dataset which contains information about 2171855 accidents across US from 2016-2019. This tool will help the user in answering to the questions like- 
+                <ul>
+                  <li>What is the correlation between the weather condition and the number of accidents (if it exists)?</li>
+                  <li> Are external steps (by government to improve the roads, and better traffic signaling ) taken in order to mitigate the number of accidents useful?</li>
+                  <li>Whether more road lights are required to be implanted and in which areas?</li>
+                  <li>What is the correlation between the severity of the accident and the weather condition or more/less populated regions? </li>
+                </ul>
+              </p>  
+					   <p>
+        			The interface shows 5 visualizations along with a side bar to filter based on year. There is also a link to the instructions page on the side bar. The 5 visualizations and their interactions are described below.
+        			<ol>
+        				<li><strong>Accidents by State:</strong> This visualization shows the distribution of number of accidents across states. The color saturation represents the number of accidents. Darker the color, more the number of accidents.</li>
+        				<li><strong>Day vs Night Accidents:</strong> This visualization shows the percentage of accidents that take place in a day vs night. Pie chart is chosen because there are only two categories and percentages are better represented in pie charts.</li>
+        				<li><strong>Severity of the Accident:</strong> This visualization shows the distribution of accidents with respect to the severity level. 1 is the least severe and 4 is the most severe.</li>
+        				<li><strong>Accidents over Time:</strong> This visualization shows the number of accidents that occured in the selected year(s) by month.</li>
+        				<li><strong>Weather Condition Distribution:</strong> This visualization shows the distribution of accidents with respect to the weather condition. Only top 10 weather conditions are plotted here.</li>
+        			</ol> </p>
+        			<p>There are majorly two interactions which can be done with the visualizations.
+        				<ol>
+        					<li><strong>Dynamic queries:</strong> Selecting/deselecting any bar of the severity or weather condition visualizations will query the data and filter all the other visualizations accordingly. For example if you wish to see the distribution of accidents with severity level 2 then clicking on the bar with label as 2 will filter all the other visualzations accordingly. Also, you can select any arc of pie chart and just look at the distribtuion of accidents that occurred in day or night. If you are interested in analyzing the accidents in a particular state then selected that state in the geographic plot will update the other visualizations accordingly. You can also select one or multiple years from the side panel and analyze the distribution of accidents for the selected year(s).</li>
+        					<li><strong>Crossfiltering:</strong> Brushing over an area on the Accidents over Time chart selects the range of time and then filters all the other visualization accordingly.</li>
+        				</ol>
+        			</p>
+        			<p>
+        			For most of the visualizations I have chosen bar charts because it is easy to understand and aggregates can be easily plotted. For the distribution over states it is much more intuitive to plot it over a map rather than a bar chart because the main task here is to understand the spatial relationships and map is visually much more appealing and faster to grasp the relationship. The visual encodings are choosen depending upon the type of attribute to plot (quantitative, ordinal or nominal). 
+        			<ol>
+        				<li>Accident by State: In this plot number of accidents is a quantitative attribute and state is nominal. for the quantitative attribute I have chosen color saturation as the encoding channel over a choropleth map for states.</li>
+        				<li>Day vs Night Accidents: For this plot angle channel is used to show the percentage distibution. Day/Night is nominal while number of accidents is quantitative.</li>
+        				<li>Severity of the Accident: Severity is an ordinal (converted to nominal) attribute and number of accidents is quantitative. For the quantitative attribute I have chosen length as the encoding channel. Bar chart is an expressive way of plotting a nominal vs quantitative attribute. The value of the severity itself says about the order.</li>
+        				<li>Accidents over time: Month on the x axis is nominal attribute and number of accidents is quantitative. I have chosen length as an encoding channel for number of accidents and different bars of the plot represent different months.</li>
+        				<li>Weather Condition Distribution: Weather condition is a nominal attribute and number of accidents is quantitative. The different colors of the bar shows the color hue encoding for the nominal attribute and the length (because I would like to see the relative trend) of the bar represents the encoding for the quantitative attribute.</li>
+        			</ol> 
+        			Instead of the bar charts, another alternative to consider was a line chart but beacuse of the categorical nature of one attribute bar chart was a better representation. An alternative to the pie-chart which I considered was a bar chart but I chose pie chart because I wanted to show the percentage of the accidents that occurred in day vs night (to compare parts (occured in day or night) of a whole (total accidents)).	 </br>
+        			With each interaction (selecting any bar, brush on chart or selecting any state) made with tool will trigger a query to the backenc with all the filters under consideration. The filte values can also be seen in the url which are then sent along with the get request to the python server. The server interacts with the PostgreSQL DBMS and fetches the aggregated values required for each of the five visualizations. Essentially, 5 queries with all the filters are made to the DBMS to get the aggregated values and the values are then send to the browser to create the visualization using javascript (d3.js or dc.js). </br>
+        			This tool presents 5 visualizations and a couple of interactions to analyze the accidents in the US. Another alternative design which I considered was to show just one plot with a US map and distribution of accidents over states. In a pannel, there are dropdowns to select different attributes (avg(severity), weather condition, month, year) to analyze over the states. However, avaerage severity was almost similar across states and many of the attributes in the dataset were categorical rather than quantitative. Moreover, the chosen design gives more flexibity over playing with the attribtues. It also presents shows the accident distribution over different attributes which would not have been possible in the alternative design where only the distribution over states could be visualized. In some sense, the chosen visualization is a superset or the alternative one and gives more opportunity to play with the tool. Apart from this, it is a better design to just click the bars or brush on the area than selecting attributes from a dropdown menu. </br>
+
+        			I was new to d3.js and javascript and also had a very little experience in web development. So it took me almost 50-60 hours from selecting the dataset to building the whole prototype. It took me around 2 hours to find and select a suitable database with more than 1M rows and enough attributes. After that I read decided upon server framework to use. One aspect which took time was to understand/implement the pipeline of server, DBMS and the browser-client. Connecting DBMS to the server, sending a request and fetching the data to/from the server, passing the fetched data to d3 to create the visualizations. Once the pipeline was set, another aspect which took time was to choose between the attributes, type of visualizations, visual encodings, tool design and type of interactions to present the data such that meaningful insights could be drawn. Another choice to make was between fetching the whole table with the required attributes to build a visulaization to the browser and then aggregating it or querying the aggregated data at the server end. For better optimization, latency and human experience I chose the latter option. </p>
+           
+        			<h5><Strong>Server-side Optimizations</Strong></h5>
+        			<p>
+        			<ol>
+        				<li>Indexing: Building indexes on attributes which will be frequently queried results in faster responsee to query.</li>
+        				<li>Using asyncpg: Asynpg asynchronously fetches the data and is 3x times faster than psycopg</li>
+                <li>Server-side Caching: For caching the queries already been made to the database for faster response and better experience to the users, I have implemented server-side caching mechanism using memcached and python client pymemcache.</li>
+                <li>Response Format: Sending the response to the client is usually done in [{"a1": "r1v1","a2":"r1v2"}, {"a1": "r2v1","a2":"r2v2"}] format which contains redundant "a1" and "a2". Instead, I am using matrix style array of arrays format like [["r1v1","r1v2"],["r2v1","r2v2"]] which alleviates the redundancy as well as reduction in the amount of data sent to the client.</li>
+        			</ol>
+        			</p>	
+
+        		</p>
+        		</div>
+        	</div>
+
+    		</div>
+    	</div>
+	</div>
+</div>
+
+</body>
+</html>
+
